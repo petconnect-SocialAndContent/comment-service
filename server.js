@@ -1,18 +1,13 @@
-require('dotenv').config(); // 👈 Faltaba
-
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const commentRoutes = require('./routes/commentRoutes.js');
-const authMiddleware = require('./middleware/authMiddleware.js');
+const commentRoutes = require('./routes/commentRoutes');
+const authMiddleware = require('./middleware/authMiddleware');
 
 const app = express();
 app.use(express.json());
 
-// Usar variable correcta
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/commentdb';
-
-// Conexión MongoDB (sin opciones deprecadas)
-mongoose.connect(MONGODB_URI)
+mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('🟢 Connected to MongoDB (comment-service)'))
   .catch(err => {
     console.error('🔴 Error connecting to MongoDB:', err);
@@ -22,8 +17,8 @@ mongoose.connect(MONGODB_URI)
 // JWT Middleware global
 app.use(authMiddleware);
 
-// Rutas
-app.use('/api/comments', commentRoutes);
+// Prefijo estándar REST
+app.use('/api/v1/comments', commentRoutes);
 
 const PORT = process.env.PORT || 3007;
 app.listen(PORT, () => {
