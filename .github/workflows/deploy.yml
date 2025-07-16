@@ -10,29 +10,16 @@ env:
 
 jobs:
   test:
-    name: Simulate Node App Test
+    name: Skip test (no tests configured)
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Simulate test
-        run: echo "No tests configured — skipping..."
+      - name: No tests available
+        run: echo "Skipping tests for comment-service..."
 
   deploy:
     name: Build and Push Docker Image
     needs: test
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
